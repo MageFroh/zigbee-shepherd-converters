@@ -1715,6 +1715,15 @@ const converters = {
             return {};
         },
     },
+    generic_mains_voltage_change: {
+        cid: 'genPowerCfg',
+        type: ['devChange'],
+        convert: (model, msg, publish, options) => {
+            if (msg.data.data.hasOwnProperty('mainsVoltage')) {
+                return {mains_voltage: msg.data.data['mainsVoltage'] / 10};
+            }
+        },
+    },
     generic_battery: {
         cid: 'genPowerCfg',
         type: ['attReport', 'readRsp'],
