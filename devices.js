@@ -3734,6 +3734,30 @@ const devices = [
             execute(device, actions, callback);
         },
     },
+    {
+        zigbeeModel: ['SB600'],
+        model: 'SB600',
+        vendor: 'Salus',
+        description: 'Smart button',
+        supports: '2x buttons',
+        fromZigbee: [fz.salus_toggle, fz.ignore_diagnostic_change, fz.ignore_basic_change, fz.generic_temperature, fz.ignore_poll_ctrl_change, fz.ignore_genCommissioning_change],
+        toZigbee: [],
+        ep: (device) => {
+            return {'up': 2, 'down': 3};
+        },
+        configure: (ieeeAddr, shepherd, coordinator, callback) => {
+            const cfg = {direction: 0, attrId: 0, dataType: 16, minRepIntval: 0, maxRepIntval: 5, repChange: 0};
+            const ep1 = shepherd.find(ieeeAddr, 2);
+            const ep2 = shepherd.find(ieeeAddr, 3);
+            const actions = [
+                (cb) => ep1.bind('genOnOff', coordinator, cb),
+                (cb) => ep1.foundation('genOnOff', 'configReport', [cfg], foundationCfg, cb),
+                (cb) => ep2.bind('genOnOff', coordinator, cb),
+                (cb) => ep2.foundation('genOnOff', 'configReport', [cfg], foundationCfg, cb),
+            ];
+            execute(ep1, actions, callback);
+        },
+    },
 
     // AduroSmart
     {

@@ -2281,6 +2281,14 @@ const converters = {
             };
         },
     },
+    salus_toggle: {
+        cid: 'genOnOff',
+        type: 'cmdToggle',
+        convert: (model, msg, publish, options) => {
+            const ep = msg.endpoints[0];
+            return {click: getKey(model.ep(ep.device), ep.epId)};
+        },
+    },
     cmdToggle: {
         cid: 'genOnOff',
         type: 'cmdToggle',
@@ -3200,6 +3208,11 @@ const converters = {
     ignore_genLevelCtrl_report: {
         cid: 'genLevelCtrl',
         type: 'attReport',
+        convert: (model, msg, publish, options) => null,
+    },
+    ignore_genCommissioning_change: {
+        cid: 'genCommissioning',
+        type: 'devChange',
         convert: (model, msg, publish, options) => null,
     },
 };
