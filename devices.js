@@ -1408,6 +1408,34 @@ const devices = [
         extend: generic.light_onoff_brightness_colortemp,
     },
     {
+        zigbeeModel: ['Switch 4x EU-LIGHTIFY'],
+        model: 'AB371860155',
+        vendor: 'OSRAM',
+        description: 'Lightify Switch',
+        supports: '4x button and hold/release',
+        fromZigbee: [
+            fz.AB371860155_cmdOn, fz.AB371860155_cmdOff, fz.AB371860155_cmdMoveWithOnOff, fz.AB371860155_cmdMove, fz.AB371860155_cmdStop,
+            fz.AB371860155_cmdStepColorTemp, fz.AB371860155_cmdMoveHue, fz.AB371860155_cmdMoveToSaturation,
+        ],
+        toZigbee: [],
+        configure: (ieeeAddr, shepherd, coordinator, callback) => {
+            const ep1 = shepherd.find(ieeeAddr, 1);
+            const ep2 = shepherd.find(ieeeAddr, 2);
+            const ep3 = shepherd.find(ieeeAddr, 3);
+            const ep4 = shepherd.find(ieeeAddr, 4);
+
+            const actions = [
+                (cb) => ep1.bind('genOnOff', coordinator, cb),
+                (cb) => ep1.bind('genLevelCtrl', coordinator, cb),
+                (cb) => ep2.bind('lightingColorCtrl', coordinator, cb),
+                (cb) => ep3.bind('genOnOff', coordinator, cb),
+                (cb) => ep3.bind('genLevelCtrl', coordinator, cb),
+                (cb) => ep4.bind('lightingColorCtrl', coordinator, cb),
+            ];
+            execute(ep1, actions, callback);
+        },
+    },
+    {
         zigbeeModel: ['Lightify Switch Mini', 'Lightify Switch Mini\u0000'],
         model: 'AC0251100NJ',
         vendor: 'OSRAM',

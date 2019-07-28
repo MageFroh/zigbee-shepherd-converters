@@ -2494,6 +2494,78 @@ const converters = {
             return {pressure: precisionRoundOptions(pressure, options, 'pressure')};
         },
     },
+    AB371860155_cmdOn: {
+        cid: 'genOnOff',
+        type: 'cmdOn',
+        convert: (model, msg, publish, options) => {
+            return {action: 'up_left'};
+        },
+    },
+    AB371860155_cmdOff: {
+        cid: 'genOnOff',
+        type: 'cmdOff',
+        convert: (model, msg, publish, options) => {
+            return {action: 'down_left'};
+        },
+    },
+    AB371860155_cmdMoveWithOnOff: {
+        cid: 'genLevelCtrl',
+        type: 'cmdMoveWithOnOff',
+        convert: (model, msg, publish, options) => {
+            return {action: 'up_left_hold'};
+        },
+    },
+    AB371860155_cmdStop: {
+        cid: 'genLevelCtrl',
+        type: 'cmdStop',
+        convert: (model, msg, publish, options) => {
+            const map = {
+                1: 'up_left_release',
+                3: 'down_left_release',
+            };
+            return {action: map[msg.endpoints[0].epId]};
+        },
+    },
+    AB371860155_cmdMove: {
+        cid: 'genLevelCtrl',
+        type: 'cmdMove',
+        convert: (model, msg, publish, options) => {
+            return {action: 'down_left_hold'};
+        },
+    },
+    AB371860155_cmdMoveHue: {
+        cid: 'lightingColorCtrl',
+        type: 'cmdMoveHue',
+        convert: (model, msg, publish, options) => {
+            const map = {
+                2: 'up_right_release',
+                4: 'down_right_release',
+            };
+            return {action: map[msg.endpoints[0].epId]};
+        },
+    },
+    AB371860155_cmdMoveToSaturation: {
+        cid: 'lightingColorCtrl',
+        type: 'cmdMoveToSaturation',
+        convert: (model, msg, publish, options) => {
+            const map = {
+                2: 'up_right_hold',
+                4: 'down_right_hold',
+            };
+            return {action: map[msg.endpoints[0].epId]};
+        },
+    },
+    AB371860155_cmdStepColorTemp: {
+        cid: 'lightingColorCtrl',
+        type: 'cmdStepColorTemp',
+        convert: (model, msg, publish, options) => {
+            const map = {
+                2: 'up_right',
+                4: 'down_right',
+            };
+            return {action: map[msg.endpoints[0].epId]};
+        },
+    },
     AC0251100NJ_cmdOn: {
         cid: 'genOnOff',
         type: 'cmdOn',
